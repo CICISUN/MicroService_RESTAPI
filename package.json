@@ -1,0 +1,19 @@
+{
+  "name": "Router",
+  "version": "1.0.0",
+  "description": "The router acting as API gateway for Student Instance",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CICISUN/MicroService_RESTAPI.git"
+  },
+  "author": "Cici Sun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CICISUN/MicroService_RESTAPI/issues"
+  },
+  "homepage": "https://github.com/CICISUN/MicroService_RESTAPI"
+}
