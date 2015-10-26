@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/CICISUN/MicroService_RESTAPI/issues"
   },
-  "homepage": "https://github.com/CICISUN/MicroService_RESTAPI"
+  "homepage": "https://github.com/CICISUN/MicroService_RESTAPI",
+  "dependencies": {
+    "mongoose": "^4.2.2"
+  }
 }
