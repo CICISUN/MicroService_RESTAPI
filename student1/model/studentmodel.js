@@ -17,6 +17,9 @@ var student = new Schema({
   , uni	: String
   , department	: String
   , strict	  : false
+},
+{
+	versionKey : false
 });
 
 

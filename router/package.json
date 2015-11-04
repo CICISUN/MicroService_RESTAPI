@@ -1,5 +1,5 @@
 {
-  "name": "student1",
+  "name": "router",
   "version": "0.0.1",
   "private": true,
   "description": "New Swagger API Project",
@@ -8,11 +8,8 @@
   "license": "",
   "main": "app.js",
   "dependencies": {
-    "body-parser": "^1.14.1",
     "express": "^4.12.3",
-    "swagger-express-mw": "^0.1.0",
-    "swagger-tools": "^0.9.9",
-    "swagger-validation": "^1.4.2"
+    "swagger-express-mw": "^0.1.0"
   },
   "devDependencies": {
     "should": "^7.1.0",

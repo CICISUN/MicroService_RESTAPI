@@ -18,25 +18,20 @@ consumes:
 produces:
   - application/json
 paths:
-  /hello:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: hello_world
+  /getStudents:
+    x-swagger-router-controller: student1_controller
     get:
-      description: Returns 'Hello' to the caller
+      description: Returns all the students in db
       # used as the method name of the controller
-      operationId: hello
-      parameters:
-        - name: name
-          in: query
-          description: The name of the person to whom to say hello
-          required: false
-          type: string
+      operationId: getStudents
+      tags:
+        - student
       responses:
         "200":
           description: Success
           schema:
             # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
+            $ref: "#/definitions/StudentResponse"
         # responses may fall through to errors
         default:
           description: Error
@@ -48,6 +43,8 @@ paths:
       description: Return the student in db matching given sid
       # used as the method name of the controller
       operationId: getStudentInfo
+      tags:
+        - student
       parameters:
         - name: sid
           in: query
@@ -60,6 +57,8 @@ paths:
           schema:
             # a pointer to a definition
             $ref: "#/definitions/StudentResponse"
+        "401":
+          description: No Student
         # responses may fall through to errors
         default:
           description: Error
@@ -68,59 +67,80 @@ paths:
   /createStudent:
     x-swagger-router-controller: student1_controller
     post:
-      summary: Create a student
+      description: Creates a new student in the store.
       operationId: createStudent
       tags:
         - student
       parameters:
-        - name: "student"
-          in: "body"
-          description: Student to add
+        - name: student
+          in: body
+          description: student to add to db
           required: true
           schema:
             $ref: '#/definitions/NewStudent'
+      responses:
+        201:
+          description: student created
+          schema:
+            $ref: '#/definitions/Student'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
       x-examples:
         application/json: { "sid": 1,
                             "name": "Chengcheng",
                             "gender": "female",
                             "uni": "cd2789",
                             "department": "CS" }
+  /updateStudent:
+    x-swagger-router-controller: student1_controller
+    put:
+      description: update information for a student
+      # used as the method name of the controller
+      operationId: updateStudent
+      tags:
+        - student
+      parameters:
+        - name: student
+          in: body
+          description: The updated information of the student 
+          required: true
+          schema:
+            $ref: '#/definitions/NewStudent'
       responses:
         "201":
-          description: Student created
-          headers:
-            Location:
-              type: string
-              format: url
-              description: A link to the Character
+          description: student updated
           schema:
-            $ref: "#/definitions/StudentResponse"
-          examples:
-            application/json: |-
-              {
-                "name": "CCD",
-                "links": [
-                  {
-                    "rel": "self",
-                    "allow": [
-                      "GET", "PUT"
-                    ],
-                    "href": "/getStudentInfo?sid=2"
-                  },
-                  {
-                    "rel": "location",
-                    "allow": [
-                      "GET", "PUT"
-                    ],
-                    "href": "/student/2"
-                  }
-                ]
-              }
+            # a pointer to a definition
+            $ref: "#/definitions/Student"
+        "401":
+          description: No Student
         # responses may fall through to errors
         default:
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"      
+            $ref: "#/definitions/ErrorResponse"
+  /deleteStudent:
+    x-swagger-router-controller: student1_controller
+    delete:
+      description: deletes a student based on the SID supplied
+      operationId: deleteStudent
+      tags:
+        - student
+      parameters:
+        - name: sid
+          in: query
+          description: SID of student to delete
+          required: true
+          type: integer
+      responses:
+        204:
+          description: student deleted
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -131,10 +151,28 @@ definitions:
     properties:
       message:
         type: string
-
+  Student:
+    allOf:
+      - $ref: '#/definitions/NewStudent'
+      - required:
+        - sid
+        properties:
+          sid:
+            type: integer
+          name:
+            type: string
+          gender:
+            type: string
+          uni:
+            type: string
+          department:
+            type: string
   NewStudent:
     required:
-      - name  
+      - sid
+      - name
+      - uni
+      - department  
     properties:
       sid:
         type: integer
@@ -146,15 +184,13 @@ definitions:
         type: string
       department:
         type: string
-  HelloWorldResponse:
-    required:
-      - message
-    properties:
-      message:
-        type: string
   ErrorResponse:
     required:
+      - code
       - message
     properties:
+      code:
+        type: integer
+        format: int32
       message:
         type: string
