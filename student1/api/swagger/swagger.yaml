@@ -79,7 +79,7 @@ paths:
           schema:
             $ref: '#/definitions/NewStudent'
       responses:
-        201:
+        "200":
           description: student created
           schema:
             $ref: '#/definitions/Student'
@@ -109,7 +109,7 @@ paths:
           schema:
             $ref: '#/definitions/NewStudent'
       responses:
-        "201":
+        "200":
           description: student updated
           schema:
             # a pointer to a definition
@@ -135,7 +135,7 @@ paths:
           required: true
           type: integer
       responses:
-        204:
+        "200":
           description: student deleted
         default:
           description: Error
@@ -186,11 +186,7 @@ definitions:
         type: string
   ErrorResponse:
     required:
-      - code
       - message
     properties:
-      code:
-        type: integer
-        format: int32
       message:
         type: string
