@@ -17,66 +17,16 @@ consumes:
 # format of the responses to the client (Accepts)
 produces:
   - application/json
+#  - text/html
 paths:
-  /helloyou:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: hello_world
-    get:
-      description: Returns to the caller
-      # used as the method name of the controller
-      operationId: helloyou
-      parameters:
-        - name: firstname
-          in: query
-          description: The firstname of the person to whom to say hello
-          required: false
-          type: string
-        - name: lastname
-          in: query
-          description: The lastname of the person to whom to say hello
-          required: false
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
-        # responses may fall through to errors
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse" 
-  /hello:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: hello_world
-    get:
-      description: Returns 'Hello' to the caller
-      # used as the method name of the controller
-      operationId: hello
-      parameters:
-        - name: name
-          in: query
-          description: The name of the person to whom to say hello
-          required: false
-          type: string
-      responses:
-        "200":
-          description: Success
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
-        # responses may fall through to errors
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
   /getCourses:
     x-swagger-router-controller: course_controller
     get:
       description: Returns all the courses in db
       # used as the method name of the controller
       operationId: getCourses
+      tags:
+        - course
       responses:
         "200":
           description: Success
@@ -94,6 +44,8 @@ paths:
       description: Returns all the courses in db matching given cid
       # used as the method name of the controller
       operationId: getCourse
+      tags:
+        - course
       parameters:
         - name: cid
           in: query
@@ -111,6 +63,87 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /createcourse:
+    x-swagger-router-controller: course_controller
+    post:
+      description: Creates a new course in the store.
+      operationId: createCourse
+      tags:
+        - course
+      parameters:
+        - name: course
+          in: body
+          description: course to add to db
+          required: true
+          schema:
+            $ref: '#/definitions/NewCourse'
+      responses:
+        "200":
+          description: course created
+          schema:
+            $ref: '#/definitions/Course'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      x-examples:
+        application/json: { "cid": 1,
+                            "name": "Introduction to Database",
+                            "instructor": "Xiaoming",
+                            "department": "CS",
+                            "semester": "14fall",
+                            "callNumber": 78624,
+                            "enrollment": 89,
+                            "waitlisted": 0,
+                            "maxentrollment": 100 }
+  /updatecourse:
+    x-swagger-router-controller: course_controller
+    put:
+      description: update information for a course
+      # used as the method name of the controller
+      operationId: updateCourse
+      tags:
+        - course
+      parameters:
+        - name: course
+          in: body
+          description: The updated information of the course 
+          required: true
+          schema:
+            $ref: '#/definitions/NewCourse'
+      responses:
+        "200":
+          description: course updated
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/Course"
+        "401":
+          description: No course
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /deletecourse:
+    x-swagger-router-controller: course_controller
+    delete:
+      description: deletes a course based on the CID supplied
+      operationId: deleteCourse
+      tags:
+        - course
+      parameters:
+        - name: cid
+          in: query
+          description: CID of course to delete
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: course deleted
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
@@ -120,13 +153,61 @@ definitions:
     - message
     properties:
       message:
-        type: string  
-  HelloWorldResponse:
-    required:
-      - message
-    properties:
-      message:
         type: string
+  Course:
+    allOf:
+      - $ref: '#/definitions/NewCourse'
+      - required:
+        - cid
+        properties:
+          cid:
+            type: integer
+          name:
+            type: string
+          instructor:
+            type: string
+          department:
+            type: string
+          semester:
+            type: string
+          callNumber:
+            type: integer
+          enrollment:
+            type: integer
+          waitlisted:
+            type: integer
+          maxentrollment:
+            type: integer
+  NewCourse:
+    required:
+      - cid
+      - name
+      - instructor
+      - department
+      - semester
+      - callNumber
+      - enrollment
+      - waitlisted
+      - maxentrollment  
+    properties:
+      cid:
+        type: integer
+      name:
+        type: string
+      instructor:
+        type: string
+      department:
+        type: string
+      semester:
+        type: string
+      callNumber:
+        type: integer
+      enrollment:
+        type: integer
+      waitlisted:
+        type: integer
+      maxentrollment:
+        type: integer
   ErrorResponse:
     required:
       - message
