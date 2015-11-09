@@ -11,20 +11,21 @@ module.exports = {
 };
 
 
-function getStudents(req, res) {
+function getStudents(req, res, next) {
   	// variables defined in the Swagger document can be referenced using req.swagger.params.{parameter_name}
   	Student.find({},function(err, data) {
-		if (err) res.send(err);
-		res.json(data);
+		if (err) return next(err);
+		res.json(data); //res.status(200).send("ok");
 	});
 }
 
-function getStudentInfo(req, res) {
+function getStudentInfo(req, res, next) {
   	var sid = req.swagger.params.sid.value || 1;
   	Student.find({_id : sid},function(err, data) {
 		if (err) return next(err);
 
-		res.status(200).send("ok");
+		res.json(data); //res.status(200).send("ok");
+
 	  });
 }
 
@@ -36,9 +37,10 @@ function createStudent(req, res, next) {
                                   uni : body.uni,
                                   department: body.department});
 
-    newStudent.save(function (err, newStudent) {
+    newStudent.save(function (err, newStudent, data) {
       if (err) return next(err);
-      res.status(200).send("ok");
+      //console.log(res.json(data));
+      res.json(data);
     });
 }
 
@@ -53,15 +55,17 @@ function updateStudent(req, res, next) {
       return next(error);
     }
     if (err) return next(err);
-    res.status(200).send("ok");
+    //res.json(data); ??failed schema validation
+    console.log(res.json(data));
+    //res.status(200).send("OK"); //res.json(data); 
   });
 }
 
 function deleteStudent(req, res, next) {
   Student.remove({_id: req.swagger.params.sid.value}, function(err,data) {
-    if(err) {
-      return next(err);
-    }
-    res.status(200).send("ok");
+    if(err) return next(err);
+    //!
+    res.json(data);
+    //res.status(200).send(data); //res.json(data);
   });
 }
