@@ -139,7 +139,10 @@ paths:
           type: integer
       responses:
         "200":
-          description: course deleted
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/CourseResponse"
         default:
           description: Error
           schema:
@@ -149,8 +152,6 @@ paths:
 # complex objects have schema definitions
 definitions:
   CourseResponse:
-    required:
-    - message
     properties:
       message:
         type: string
@@ -209,8 +210,6 @@ definitions:
       maxentrollment:
         type: integer
   ErrorResponse:
-    required:
-      - message
     properties:
       message:
         type: string

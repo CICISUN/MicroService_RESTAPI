@@ -23,9 +23,7 @@ function getStudentInfo(req, res, next) {
   	var sid = req.swagger.params.sid.value || 1;
   	Student.find({_id : sid},function(err, data) {
 		if (err) return next(err);
-
-		res.json(data); //res.status(200).send("ok");
-
+		res.json(data);//res.status(200).send("ok");
 	  });
 }
 
