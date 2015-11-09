@@ -24,7 +24,7 @@ function getStudentInfo(req, res) {
   	Student.find({_id : sid},function(err, data) {
 		if (err) return next(err);
 
-		res.status(200).send("ok");
+		res.json(data);//res.status(200).send("ok");
 	  });
 }
 
