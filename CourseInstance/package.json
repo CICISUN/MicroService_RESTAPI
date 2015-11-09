@@ -8,9 +8,9 @@
   "license": "",
   "main": "app.js",
   "dependencies": {
-    "express": "^4.12.3",
+    "express": "^4.13.3",
     "swagger-express-mw": "^0.1.0",
-    "swagger-tools": "^0.9.7"
+    "swagger-tools": "^0.9.9"
   },
   "devDependencies": {
     "should": "^7.1.0",
