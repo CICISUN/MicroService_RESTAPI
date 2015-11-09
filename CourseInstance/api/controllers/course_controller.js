@@ -67,13 +67,17 @@ function updateCourse(req, res, next) {
       return next(error);
     }
     if (err) return next(err);
-    res.json(data); //res.status(200).send("ok");
+    //res.json(data); //res.status(200).send("ok");
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(result, null, 2));
   });
 }
 
 function deleteCourse(req, res, next) {
   Course.remove({_id: req.swagger.params.cid.value}, function(err,data) {
     if(err) return next(err);
-    res.json(data)//res.status(200).send("ok");
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify(result, null, 2));
+    //res.json(data)//res.status(200).send("ok");
   });
 }
