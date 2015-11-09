@@ -17,6 +17,7 @@ consumes:
 # format of the responses to the client (Accepts)
 produces:
   - application/json
+  - text/html
 paths:
   /getStudents:
     x-swagger-router-controller: student1_controller
