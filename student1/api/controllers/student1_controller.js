@@ -38,7 +38,8 @@ function createStudent(req, res, next) {
     newStudent.save(function (err, newStudent, data) {
       if (err) return next(err);
       //console.log(res.json(data));
-      res.json(data);
+      res.setHeader('Content-Type', 'application/json');
+      res.json("Successfully created student.");
     });
 }
 
@@ -53,9 +54,11 @@ function updateStudent(req, res, next) {
       return next(error);
     }
     if (err) return next(err);
-    //res.json(data); ??failed schema validation
-    console.log(res.json(data));
-    //res.status(200).send("OK"); //res.json(data); 
+    res.setHeader('Content-Type', 'application/json');
+    res.json("Successfully update student info.");
+    // var response = JSON.stringify(data, null, 2);
+    // if(response['ok'] == 1) return res.end(JSON.stringify("OK"));
+    // else return res.end(JSON.stringify(data, null, 2));
   });
 }
 
@@ -63,7 +66,10 @@ function deleteStudent(req, res, next) {
   Student.remove({_id: req.swagger.params.sid.value}, function(err,data) {
     if(err) return next(err);
     //!
-    res.json(data);
-    //res.status(200).send(data); //res.json(data);
+    res.setHeader('Content-Type', 'application/json');
+    // var response = JSON.stringify(data, null, 2);
+    // if(response['ok'] == 1) return res.end(JSON.stringify("OK"));
+    // else return res.end(JSON.stringify(data, null, 2));
+    res.json("Successfully delete student.");
   });
 }
