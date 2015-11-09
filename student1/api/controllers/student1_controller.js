@@ -58,9 +58,6 @@ function updateStudent(req, res, next) {
     if (err) return next(err);
     res.setHeader('Content-Type', 'application/json');
     res.json("Successfully update student info.");
-    // var response = JSON.stringify(data, null, 2);
-    // if(response['ok'] == 1) return res.end(JSON.stringify("OK"));
-    // else return res.end(JSON.stringify(data, null, 2));
   });
 }
 
