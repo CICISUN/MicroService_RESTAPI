@@ -1,9 +1,9 @@
 swagger: "2.0"
 info:
   version: "0.0.1"
-  title: Student Instance1
+  title: Student Instance2
 # during dev, should point to your local machine
-host: localhost:9001
+host: localhost:9002
 # basePath prefixes all resource paths 
 basePath: /
 # 
@@ -21,7 +21,7 @@ produces:
   - text/plain
 paths:
   /getStudents:
-    x-swagger-router-controller: student1_controller
+    x-swagger-router-controller: student2_controller
     get:
       description: Returns all the students in db
       # used as the method name of the controller
@@ -67,7 +67,7 @@ paths:
   #         schema:
   #           $ref: "#/definitions/ErrorResponse"
   /getStudentInfo:
-    x-swagger-router-controller: student1_controller
+    x-swagger-router-controller: student2_controller
     get:
       description: Return the student in db matching given sid
       # used as the method name of the controller
@@ -94,7 +94,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
   /createStudent:
-    x-swagger-router-controller: student1_controller
+    x-swagger-router-controller: student2_controller
     post:
       description: Creates a new student in the store.
       operationId: createStudent
@@ -123,7 +123,7 @@ paths:
                             "uni": "cd2789",
                             "department": "CS" }
   /updateStudent:
-    x-swagger-router-controller: student1_controller
+    x-swagger-router-controller: student2_controller
     put:
       description: update information for a student
       # used as the method name of the controller
@@ -150,7 +150,7 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
   /deleteStudent:
-    x-swagger-router-controller: student1_controller
+    x-swagger-router-controller: student2_controller
     delete:
       description: deletes a student based on the SID supplied
       operationId: deleteStudent

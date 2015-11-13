@@ -23,7 +23,7 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   swaggerExpress.register(app);
 
   //var port = 9001;
-  app.listen(9001);
+  app.listen(9003);
 
   // if (swaggerExpress.runner.swagger.paths['/getStudentInfo']) {
   //   console.log('try this:\ncurl http://127.0.0.1:' + port + '/getStudentInfo?sid=1');
