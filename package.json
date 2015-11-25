@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/CICISUN/MicroService_RESTAPI",
   "dependencies": {
+    "body-parser": "^1.14.1",
     "mongoose": "^4.2.2"
   }
 }
