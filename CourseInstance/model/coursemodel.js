@@ -21,6 +21,9 @@ var course = new Schema({
   , waitlisted	: Number 
   , maxentrollment : Number 
   , strict	  : false
+},
+{
+  versionKey : false
 });
 
 

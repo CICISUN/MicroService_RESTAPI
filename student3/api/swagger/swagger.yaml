@@ -1,0 +1,222 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Student Instance3
+# during dev, should point to your local machine
+host: localhost:9003
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+  - text/html
+  - text/plain
+paths:
+  /getStudents:
+    x-swagger-router-controller: student3_controller
+    get:
+      description: Returns all the students in db
+      # used as the method name of the controller
+      operationId: getStudents
+      tags:
+        - student
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/StudentResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  # /getStudentInfo:
+  #   x-swagger-router-controller: student1_controller
+  #   get:
+  #     description: Return the student in db matching given sid
+  #     # used as the method name of the controller
+  #     operationId: getStudentInfo
+  #     tags:
+  #       - student
+  #     parameters:
+  #       - name: sid
+  #         in: query
+  #         description: The sid of the student 
+  #         required: false
+  #         type: integer
+  #     responses:
+  #       "200":
+  #         description: Success
+  #         schema:
+  #           # a pointer to a definition
+  #           $ref: "#/definitions/StudentResponse"
+  #       "401":
+  #         description: No Student
+  #       # responses may fall through to errors
+  #       default:
+  #         description: Error
+  #         schema:
+  #           $ref: "#/definitions/ErrorResponse"
+  /getStudentInfo:
+    x-swagger-router-controller: student3_controller
+    get:
+      description: Return the student in db matching given sid
+      # used as the method name of the controller
+      operationId: getStudentInfoByUni
+      tags:
+        - student
+      parameters:
+        - name: uni
+          in: query
+          description: The uni of the student 
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/StudentResponse"
+        "401":
+          description: No Student
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /createStudent:
+    x-swagger-router-controller: student3_controller
+    post:
+      description: Creates a new student in the store.
+      operationId: createStudent
+      tags:
+        - student
+      parameters:
+        - name: student
+          in: body
+          description: student to add to db
+          required: true
+          schema:
+            $ref: '#/definitions/NewStudent'
+      responses:
+        "200":
+          description: student created
+          schema:
+            $ref: '#/definitions/Student'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+      x-examples:
+        application/json: { "sid": 1,
+                            "name": "Chengcheng",
+                            "gender": "female",
+                            "uni": "cd2789",
+                            "department": "CS" }
+  /updateStudent:
+    x-swagger-router-controller: student3_controller
+    put:
+      description: update information for a student
+      # used as the method name of the controller
+      operationId: updateStudent
+      tags:
+        - student
+      parameters:
+        - name: student
+          in: body
+          description: The updated information of the student 
+          required: true
+          schema:
+            $ref: '#/definitions/NewStudent'
+      responses:
+        "200":
+          description: student updated
+          schema: {
+            "type": "string"}
+        "401":
+          description: No Student
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /deleteStudent:
+    x-swagger-router-controller: student3_controller
+    delete:
+      description: deletes a student based on the SID supplied
+      operationId: deleteStudent
+      tags:
+        - student
+      parameters:
+        - name: sid
+          in: query
+          description: SID of student to delete
+          required: true
+          type: integer
+      responses:
+        "200":
+          description: student deleted
+          schema: {
+            "type": "string"}
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  StudentResponse:
+    required:
+    - message
+    properties:
+      message:
+        type: string
+  Student:
+    allOf:
+      - $ref: '#/definitions/NewStudent'
+      - required:
+        - sid
+        properties:
+          sid:
+            type: integer
+          name:
+            type: string
+          gender:
+            type: string
+          uni:
+            type: string
+          department:
+            type: string
+  NewStudent:
+    required:
+      - sid
+      - name
+      - uni
+      - department  
+    properties:
+      sid:
+        type: integer
+      name:
+        type: string
+      gender:
+        type: string
+      uni:
+        type: string
+      department:
+        type: string
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string

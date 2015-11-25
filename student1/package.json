@@ -1,0 +1,26 @@
+{
+  "name": "student1",
+  "version": "0.0.1",
+  "private": true,
+  "description": "New Swagger API Project",
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "swagger-express-middleware": "^0.4.7",
+    "swagger-express-mw": "^0.1.0",
+    "swagger-tools": "^0.9.9",
+    "swagger-validation": "^1.4.2"
+  },
+  "devDependencies": {
+    "should": "^7.1.0",
+    "supertest": "^1.0.0"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "test": "swagger project test"
+  }
+}
