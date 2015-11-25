@@ -17,6 +17,11 @@
   },
   "homepage": "https://github.com/CICISUN/MicroService_RESTAPI",
   "dependencies": {
-    "mongoose": "^4.2.2"
+    "body-parser": "^1.14.1",
+    "express": "^4.13.3",
+    "swagger-express-middleware": "^0.4.7",
+    "swagger-express-mw": "^0.1.0",
+    "swagger-tools": "^0.9.9",
+    "swagger-validation": "^1.4.2"
   }
 }
