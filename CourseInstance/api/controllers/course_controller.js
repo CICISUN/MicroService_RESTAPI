@@ -24,6 +24,7 @@ function getCourses(req, res, next) {
 }
 
 function getCourse(req, res, next) {
+    //get course by call number
   	var cid = req.swagger.params.cid.value || 1;
   	Course.find({_id : cid},function(err, result) {
   		if (err) return next(err); //res.send(err);

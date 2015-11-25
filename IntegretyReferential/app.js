@@ -22,12 +22,9 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   // install middleware
   swaggerExpress.register(app);
 
-  //var port = 9001;
-  app.listen(9001);
+  var port = process.env.PORT || 10080;
+  app.listen(port);
 
-  // if (swaggerExpress.runner.swagger.paths['/getStudentInfo']) {
-  //   console.log('try this:\ncurl http://127.0.0.1:' + port + '/getStudentInfo?sid=1');
-  // }
 });
 
 if (app.get('env') === 'development') {  
