@@ -22,8 +22,9 @@ SwaggerExpress.create(config, function(err, swaggerExpress) {
   // install middleware
   swaggerExpress.register(app);
 
-  var port = process.env.PORT || 10080;
-  app.listen(port);
+  // var port = process.env.PORT || 10080;
+  // app.listen(port);
+  app.listen(10080);
 
 });
 
