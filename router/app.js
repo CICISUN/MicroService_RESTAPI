@@ -9,9 +9,9 @@ server = http.createServer(function(req,res) {
     
     //By Default student Instance 1
 	var target = {target : 'http://localhost:9001'};
-    
+    console.log(req.url.slice(1));
     var lastNameLetter = req.url.slice(1).split('?')[1].split('=')[1][1].toLowerCase(); //bs2888 will give us s
-    //var param = reqUrl.split('?');
+    
     console.log("param is: " + lastNameLetter);
     
     //Based on the Last name, select the corresponding instance

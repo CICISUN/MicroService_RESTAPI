@@ -14,7 +14,7 @@ function enrollStudentInCourse(req, res, next) {
   	var id;
   	async.waterfall([
   		function(callback){
-		  	Student.find({_id : requni},function(err, data) {
+		  	Student.find({uni : requni},function(err, data) {
 				if (err) return next(err); //no student found
 				else if(!data || data.length == 0) {
 		          var error = new Error ('No student found.');
@@ -25,7 +25,7 @@ function enrollStudentInCourse(req, res, next) {
 			  });
   		},
   		function(callback1) {
-  			Course.find({_id : reqcallno}, function(err, data) {
+  			Course.find({callNumber : reqcallno}, function(err, data) {
   				if (err) return next(err);
   				else if(!data || data.length == 0) {
 		          var error = new Error ('No such course.');
@@ -61,9 +61,37 @@ function enrollStudentInCourse(req, res, next) {
 function removeStudentFromCourse(req, res, next) {
 	var requni = req.swagger.params.uni.value; //sudent uni
   	var reqcallno = req.swagger.params.callno.value; //course call number
-	Enrollment.remove({uni: requni, callNumber: reqcallno}, function(err, data) {
-		if(err) return next(err);
-		res.setHeader('Content-Type', 'application/json');
-		res.json("Successfully remove student " + requni + " from course " + reqcallno + ".");
-	});
+	  	async.waterfall([
+  		function(callback){
+		  	Student.find({uni : requni},function(err, data) {
+				if (err) return next(err); //no student found
+				else if(!data || data.length == 0) {
+		          var error = new Error ('No student found.');
+		          error.statusCode = 404;
+		          return next(error);
+		        }
+				callback(null);
+			  });
+  		},
+  		function(callback1) {
+  			Course.find({callNumber : reqcallno}, function(err, data) {
+  				if (err) return next(err);
+  				else if(!data || data.length == 0) {
+		          var error = new Error ('No such course.');
+		          error.statusCode = 404;
+		          return next(error);
+		        }
+  				callback1(null);
+  			});
+  		}],
+  		function (err) {
+  			if(err) return next(err);
+  			else { //if both student and course exist, we do an insert operation on enrollment table
+				Enrollment.remove({uni: requni, callNumber: reqcallno}, function(err, data) {
+						if(err) return next(err);
+						res.setHeader('Content-Type', 'application/json');
+						res.json("Successfully remove student " + requni + " from course " + reqcallno + ".");
+					});
+  			}
+  		});
 }
