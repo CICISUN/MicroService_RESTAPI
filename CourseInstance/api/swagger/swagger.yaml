@@ -178,7 +178,7 @@ definitions:
           waitlisted:
             type: integer
           maxentrollment:
-            type: integer
+            type: string
   NewCourse:
     required:
       - cid
@@ -208,7 +208,7 @@ definitions:
       waitlisted:
         type: integer
       maxentrollment:
-        type: integer
+        type: string
   ErrorResponse:
     properties:
       message:
