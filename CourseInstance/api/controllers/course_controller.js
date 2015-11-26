@@ -26,10 +26,19 @@ function getCourses(req, res, next) {
 function getCourse(req, res, next) {
     //get course by call number
   	var cid = req.swagger.params.cid.value || 1;
-  	Course.find({_id : cid},function(err, result) {
+
+
+  	Course.find({callNumber : cid},function(err, result) {
   		if (err) return next(err); //res.send(err);
   		//return res.status(200).send("ok");
       //res.json(data);
+      else if(!result || result.length == 0) {
+            var error = new Error ('No such Course found.');
+            error.statusCode = 404;
+            return next(error);
+          }
+
+      console.log("result", result);
       res.setHeader('Content-Type', 'application/json');
       res.end(JSON.stringify(result[0] || {}, null, 2));
 	});
@@ -48,13 +57,27 @@ function createCourse(req, res, next) {
                                   waitlisted: body.waitlisted,
                                   maxentrollment: body.maxentrollment});
 
-    newCourse.save(function (err, newCourse, data) {
-        if (err) return next(err);
-        //res.json(data); //res.status(200).send("ok");
-        res.setHeader('Content-Type', 'application/json');
-        response = "Succesfully added course: " + newCourse["name"];
-        res.json(response);
-    });
+      Course.find({_id : body.cid},function(err, result) {
+          
+          if (err) return next(err);
+
+          else if(result.length != 0) {
+            var error = new Error ('Bad request.');
+            error.statusCode = 400;
+            return next(error);
+          }
+          else{
+            newCourse.save(function (err, newCourse, data) {
+            //res.json(data); //res.status(200).send("ok");
+            res.setHeader('Content-Type', 'application/json');
+            response = "Succesfully added course: " + newCourse["name"];
+            res.status(201);
+            res.json(response);
+          });
+          }
+      });
+
+      
 }
 
 function updateCourse(req, res, next) {
@@ -70,7 +93,7 @@ function updateCourse(req, res, next) {
                                   maxentrollment: body.maxentrollment}, function(err,data) {
     if (data['nModified'] == 0) {
       var error = new Error();
-      error.statusCode = 401;
+      error.statusCode = 400;
       error.message = "No such course found.";
       return next(error);
     }
@@ -78,17 +101,31 @@ function updateCourse(req, res, next) {
     //res.json(data); //res.status(200).send("ok");
     res.setHeader('Content-Type', 'application/json');
     response = "Succesfully updated course: " + body.name;
+    res.status(204);
     res.json(response);
 
   });
 }
 
 function deleteCourse(req, res, next) {
-  Course.remove({_id: req.swagger.params.cid.value}, function(err,data) {
-    if(err) return next(err);
-    //res.json(data)//res.status(200).send("ok");
-    res.setHeader('Content-Type', 'application/json');
-    response = "Succesfully deleted course: " + req.swagger.params.cid.value;
-    res.json(response);  
+
+  Course.find({_id : req.swagger.params.cid.value },function(err, result) {
+        if (err) return next(err);
+        else if(result.length == 0) {
+            var error = new Error ('Bad request.');
+            error.statusCode = 400;
+            return next(error);
+          }
+        else{
+            Course.remove({_id: req.swagger.params.cid.value}, function(err,data) {
+            if(err) return next(err);
+            //res.json(data)//res.status(200).send("ok");
+            res.setHeader('Content-Type', 'application/json');
+            res.status(204);
+            response = "Succesfully deleted course: " + req.swagger.params.cid.value;
+            res.json(response);  
+          });
+        };
   });
+
 }

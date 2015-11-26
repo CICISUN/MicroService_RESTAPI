@@ -19,7 +19,7 @@ produces:
   - application/json
 #  - text/html
 paths:
-  /getCourses:
+  /Courses:
     x-swagger-router-controller: course_controller
     get:
       description: Returns all the courses in db
@@ -38,7 +38,7 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /getCourse:
+  /Course:
     x-swagger-router-controller: course_controller
     get:
       description: Returns all the courses in db matching given cid
@@ -59,12 +59,15 @@ paths:
             # a pointer to a definition
             $ref: "#/definitions/CourseResponse"
         # responses may fall through to errors
-        default:
+        "404":
           description: Error
           schema:
-            $ref: "#/definitions/ErrorResponse"
-  /createcourse:
-    x-swagger-router-controller: course_controller
+            # a pointer to a definition
+            $ref: "#/definitions/CourseResponse"
+        default:
+            description: Error
+            schema:
+              $ref: "#/definitions/ErrorResponse"
     post:
       description: Creates a new course in the store.
       operationId: createCourse
@@ -82,6 +85,10 @@ paths:
           description: course created
           schema:
             $ref: '#/definitions/Course'
+        "400":
+          description: course created failed
+          schema:
+            $ref: '#/definitions/Course'
         default:
           description: unexpected error
           schema:
@@ -96,8 +103,6 @@ paths:
                             "enrollment": 89,
                             "waitlisted": 0,
                             "maxentrollment": 100 }
-  /updatecourse:
-    x-swagger-router-controller: course_controller
     put:
       description: update information for a course
       # used as the method name of the controller
@@ -124,8 +129,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /deletecourse:
-    x-swagger-router-controller: course_controller
     delete:
       description: deletes a course based on the CID supplied
       operationId: deleteCourse
@@ -182,14 +185,6 @@ definitions:
   NewCourse:
     required:
       - cid
-      - name
-      - instructor
-      - department
-      - semester
-      - callNumber
-      - enrollment
-      - waitlisted
-      - maxentrollment  
     properties:
       cid:
         type: integer
