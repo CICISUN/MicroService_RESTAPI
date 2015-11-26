@@ -1,0 +1,51 @@
+[
+    {
+        "_id": "001",
+        "name": "Cici Sun",
+        "gender": "female",
+        "uni": "bs2888",
+        "department": "CS"
+    },
+    {
+        "_id": "002",
+        "name": "Little Red",
+        "gender": "female",
+        "uni": "sb1234",
+        "department": "CS"
+    },
+    {
+        "_id": "003",
+        "name": "Little Green",
+        "gender": "male",
+        "uni": "gs3421",
+        "department": "CS"
+    },
+    {
+        "_id": "004",
+        "name": "Xiuxiu Sun",
+        "gender": "male",
+        "uni": "xs2232",
+        "department": "CS"
+    },
+    {
+        "_id": "005",
+        "name": "Coco Du",
+        "gender": "female",
+        "uni": "cd2789",
+        "department": "CS"
+    },
+    {
+        "_id": "006",
+        "name": "Sambit Sahu",
+        "gender": "male",
+        "uni": "sb5234",
+        "department": "CS"
+    },
+    {
+        "_id": "007",
+        "name": "Alex Bili",
+        "gender": "male",
+        "uni": "ab3421",
+        "department": "Art"
+    }
+]

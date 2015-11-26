@@ -1,0 +1,68 @@
+[
+{
+  "_id": 1,
+  "name": "Algorithms",
+  "instructor": "Xiaoming Huang",
+  "department": "CS",
+  "semester": "2015Fall",
+  "callNumber": 12345,
+  "enrollment": "20",
+  "waitlisted": "0",
+  "maxenrollment": "100"
+},
+{
+  "_id": 2,
+  "name": "Advanced Algorithms",
+  "instructor": "Xiaoming Wang",
+  "department": "CS",
+  "semester": "2016Fall",
+  "callNumber": 12346,
+  "enrollment": "25",
+  "waitlisted": "0",
+  "maxenrollment": "90"
+},
+{
+  "_id": 3,
+  "name": "Advanced Database",
+  "instructor": "xiuxiu Sun",
+  "department": "CS",
+  "semester": "2016Spring",
+  "callNumber": "12348",
+  "enrollment": "25",
+  "waitlisted": "0",
+  "maxenrollment": "90"
+},
+{
+  "_id": 4,
+  "name": "Introduction to Database",
+  "instructor": "Bingjie Sun",
+  "department": "CS",
+  "semester": "2015Fall",
+  "callNumber": 12349,
+  "enrollment": "100",
+  "waitlisted": "0",
+  "maxenrollment": "150"
+},
+{
+  "_id": 5,
+  "name": "Movie Review",
+  "instructor": "Coco Du",
+  "department": "Art",
+  "semester": "2015Fall",
+  "callNumber": 12350,
+  "enrollment": "30",
+  "waitlisted": "0",
+  "maxenrollment": "60"
+},
+{
+    "_id": 6,
+    "name": "Introduction to Programming",
+    "instructor": "AngelaBaby",
+    "department": "CS",
+    "semester": "2015Fall",
+    "callNumber": 12351,
+    "enrollment": "11",
+    "waitlisted": "0",
+    "maxentrollment": "100"
+}
+]

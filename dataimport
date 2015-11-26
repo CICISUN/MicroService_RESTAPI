@@ -1,0 +1,3 @@
+mongoimport --db microservice --collection courses --type json --file course.json --jsonArray
+mongoimport --db microservice --collection students --type json --file student.json --jsonArray
+
