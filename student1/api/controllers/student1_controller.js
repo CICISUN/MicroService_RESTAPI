@@ -94,9 +94,10 @@ function updateStudent(req, res, next) {
 }
 
 function deleteStudent(req, res, next) {
-    Student.find({uni : body.uni},function(err, data) {
+    Student.find({_id : req.swagger.params.sid.value},function(err, data) {
+          if(err) return next(err);
 
-          if(!data || data.length == 0) {
+          else if(!data || data.length == 0) {
                 var error = new Error ('Duplicate student found. Bad Request.');
                 error.statusCode = 400;
                 return next(error);
@@ -104,7 +105,7 @@ function deleteStudent(req, res, next) {
             else {
                   Student.remove({_id: req.swagger.params.sid.value}, function(err,data) {
 
-                if(err) return next(err);
+                
                 //!
                 res.setHeader('Content-Type', 'application/json');
                 // var response = JSON.stringify(data, null, 2);
