@@ -14,14 +14,14 @@ server = http.createServer(function(req,res) {
 
     console.log("dataa", req.url);
 
-    // if (req.url == '/') { //will be executed only on index.html
-    //     fs.readFile('index.html', function(err, page) {
-    //         res.writeHead(200, {'Content-Type': 'text/html'});
-    //         res.write(page);
-    //         res.end();
-    //     });
-    //     return;
-    // }
+    if (req.url == '/') { //will be executed only on index.html
+        fs.readFile('index.html', function(err, page) {
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.write(page);
+            res.end();
+        });
+        return;
+    }
 
     if (req.url === '/favicon.ico' || req.url.slice(1).split('?')[1]==undefined) {
         res.writeHead(200, {'Content-Type': 'image/x-icon'} );
