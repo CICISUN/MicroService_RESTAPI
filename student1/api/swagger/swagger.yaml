@@ -27,7 +27,7 @@ paths:
       # used as the method name of the controller
       operationId: getStudents
       tags:
-        - student
+        - students
       responses:
         "200":
           description: Success
@@ -66,7 +66,7 @@ paths:
   #         description: Error
   #         schema:
   #           $ref: "#/definitions/ErrorResponse"
-  /getStudentInfo:
+  /Student:
     x-swagger-router-controller: student1_controller
     get:
       description: Return the student in db matching given sid
@@ -86,15 +86,14 @@ paths:
           schema:
             # a pointer to a definition
             $ref: "#/definitions/StudentResponse"
-        "401":
-          description: No Student
+        "400":
+          description: Bad Request
         # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /createStudent:
-    x-swagger-router-controller: student1_controller
+
     post:
       description: Creates a new student in the store.
       operationId: createStudent
@@ -108,10 +107,12 @@ paths:
           schema:
             $ref: '#/definitions/NewStudent'
       responses:
-        "200":
+        "201":
           description: student created
           schema:
             $ref: '#/definitions/Student'
+        "400":
+          description: Bad Request
         default:
           description: unexpected error
           schema:
@@ -122,8 +123,7 @@ paths:
                             "gender": "female",
                             "uni": "cd2789",
                             "department": "CS" }
-  /updateStudent:
-    x-swagger-router-controller: student1_controller
+
     put:
       description: update information for a student
       # used as the method name of the controller
@@ -138,19 +138,18 @@ paths:
           schema:
             $ref: '#/definitions/NewStudent'
       responses:
-        "200":
+        "204":
           description: student updated
           schema: {
             "type": "string"}
-        "401":
-          description: No Student
+        "400":
+          description: Bad Request
         # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /deleteStudent:
-    x-swagger-router-controller: student1_controller
+
     delete:
       description: deletes a student based on the SID supplied
       operationId: deleteStudent
@@ -163,10 +162,12 @@ paths:
           required: true
           type: integer
       responses:
-        "200":
+        "204":
           description: student deleted
           schema: {
             "type": "string"}
+        "400":
+          description: Bad Request
         default:
           description: Error
           schema:

@@ -23,18 +23,29 @@ function getStudents(req, res, next) {
 function getStudentInfo(req, res, next) {
   	var sid = req.swagger.params.sid.value || 1;
   	Student.find({_id : sid},function(err, data) {
-		if (err) return next(err);
-		res.json(data);//res.status(200).send("ok");
+      if (err) return next(err);
+      else if(!data || data.length == 0) {
+        var error = new Error ('No student found. Bad Request.');
+        error.statusCode = 400;
+        return next(error);
+      }
+      res.json(data);
 	  });
 }
 
 
 function getStudentInfoByUni(req, res, next) {
-  var studentuni = req.swagger.params.uni.value || bs2888;
-    Student.find({uni : studentuni}, function(err, data) {
-    if (err) return next(err);
-    res.json(data);
-  });
+  var studentuni = req.swagger.params.uni.value;
+    Student.find({uni : studentuni},function(err, data) {
+      if (err) return next(err);
+      else if(!data || data.length == 0) {
+        var error = new Error ('No student found. Bad Request.');
+        error.statusCode = 400;
+        return next(error);
+      }
+      res.status(200);
+      res.json(data);
+    });
 }
 
 
@@ -45,13 +56,24 @@ function createStudent(req, res, next) {
                                   gender : body.gender,
                                   uni : body.uni,
                                   department: body.department});
-
-    newStudent.save(function (err, newStudent, data) {
-      if (err) return next(err);
-      //console.log(res.json(data));
-      res.setHeader('Content-Type', 'application/json');
-      res.json("Successfully created student.");
-    });
+  Student.find({uni : body.uni},function(err, data) {
+          if (err) return next(err);
+          else if(data.length != 0) {
+              console.log(data);
+                var error = new Error ('Duplicate student found. Bad Request.');
+                error.statusCode = 400;
+                return next(error);
+            }
+            else {
+                newStudent.save(function (err, newStudent, data) {
+                  
+                  //console.log(res.json(data));
+                  res.setHeader('Content-Type', 'application/json');
+                  res.status(201);
+                  res.json("Successfully created student.");
+                  });
+            }
+  });
 }
 
 function updateStudent(req, res, next) {
@@ -60,24 +82,39 @@ function updateStudent(req, res, next) {
   Student.update({_id: body.sid},{name: body.name, gender: body.gender, uni: body.uni, department: body.department}, function(err,data) {
     if (data['nModified'] == 0) {
       var error = new Error();
-      error.statusCode = 401;
-      error.message="No student found.";
+      error.statusCode = 400;
+      error.message="No student found. Bad Request";
       return next(error);
     }
     if (err) return next(err);
+    res.status(204);
     res.setHeader('Content-Type', 'application/json');
     res.json("Successfully update student info.");
   });
 }
 
 function deleteStudent(req, res, next) {
-  Student.remove({_id: req.swagger.params.sid.value}, function(err,data) {
-    if(err) return next(err);
-    //!
-    res.setHeader('Content-Type', 'application/json');
-    // var response = JSON.stringify(data, null, 2);
-    // if(response['ok'] == 1) return res.end(JSON.stringify("OK"));
-    // else return res.end(JSON.stringify(data, null, 2));
-    res.json("Successfully delete student.");
+    Student.find({_id : req.swagger.params.sid.value},function(err, data) {
+          if(err) return next(err);
+
+          else if(!data || data.length == 0) {
+                var error = new Error ('Duplicate student found. Bad Request.');
+                error.statusCode = 400;
+                return next(error);
+            }
+            else {
+                  Student.remove({_id: req.swagger.params.sid.value}, function(err,data) {
+
+                
+                //!
+                res.setHeader('Content-Type', 'application/json');
+                // var response = JSON.stringify(data, null, 2);
+                // if(response['ok'] == 1) return res.end(JSON.stringify("OK"));
+                // else return res.end(JSON.stringify(data, null, 2));
+                res.status(204);
+                res.json("Successfully delete student.");
+              });
+            }
   });
+
 }

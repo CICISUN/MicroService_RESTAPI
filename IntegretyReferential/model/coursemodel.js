@@ -19,7 +19,7 @@ var course = new Schema({
   , callNumber	: Number 
   , enrollment	: Number 
   , waitlisted	: Number 
-  , maxentrollment : Number 
+  , maxentrollment : String 
   , strict	  : false
 },
 {
