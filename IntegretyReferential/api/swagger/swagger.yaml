@@ -48,12 +48,90 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-        default:
-          description: unexpected error
+  /removeAStudent:
+    x-swagger-router-controller: controller
+    post:
+      description: Remove a student from a course
+      operationId: removeStudentFromCourse
+      tags:
+        - Enroll
+      parameters:
+        - name: uni
+          in: query
+          description: The uni of the student 
+          required: true
+          type: string
+        - name: callno
+          in: query
+          description: The callno of the course
+          required: true
+          type: number
+      responses:
+        "200":
+          description: Remove Successfully
           schema:
-            $ref: '#/definitions/ErrorResponse'
+            $ref: '#/definitions/EnrollResponse'
+        "401":
+          description: No Such A Course
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /changeCourseSchema:
+    x-swagger-router-controller: controller
+    post:
+      description: Change Course schema
+      operationId: changeCourseSchema
+      tags:
+        - Schema
+      parameters:
+        - name: newSchema
+          in: query
+          description: newSchema of courses 
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Updated Schema Successfully
+          schema:
+            $ref: '#/definitions/EnrollResponse'
+        "401":
+          description: Updated Schema Failed
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /changeStudentSchema:
+    x-swagger-router-controller: controller
+    post:
+      description: Change Student schema
+      operationId: changeStudentSchema
+      tags:
+        - Schema
+      parameters:
+        - name: newSchema
+          in: query
+          description: newSchema of Students 
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Updated Schema Successfully
+          schema:
+            $ref: '#/definitions/EnrollResponse'
+        "401":
+          description: Updated Schema Failed
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /swagger:
     x-swagger-pipe: swagger_raw
+
 # complex objects have schema definitions
 definitions:
   EnrollResponse:

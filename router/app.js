@@ -1,4 +1,5 @@
 var http = require('http'),
+        fs=require('fs'),
         httpProxy = require('http-proxy');
         // url = require('url');
 
@@ -10,9 +11,31 @@ server = http.createServer(function(req,res) {
     
     //By Default student Instance 1
 	var target = {target : 'http://localhost:9001'};
-    console.log(req.path);
+
+    console.log("dataa", req.url);
+
+    // if (req.url == '/') { //will be executed only on index.html
+    //     fs.readFile('index.html', function(err, page) {
+    //         res.writeHead(200, {'Content-Type': 'text/html'});
+    //         res.write(page);
+    //         res.end();
+    //     });
+    //     return;
+    // }
+
+    if (req.url === '/favicon.ico' || req.url.slice(1).split('?')[1]==undefined) {
+        res.writeHead(200, {'Content-Type': 'image/x-icon'} );
+        res.end();
+        console.log('favicon requested');
+        return;
+    }
+
+
+
+    
     var lastNameLetter = req.url.slice(1).split('?')[1].split('=')[1][1].toLowerCase(); //bs2888 will give us s
-    //var param = reqUrl.split('?');
+
+    
     console.log("param is: " + lastNameLetter);
     
     //Based on the Last name, select the corresponding instance
@@ -35,6 +58,7 @@ server = http.createServer(function(req,res) {
     }
     proxy.proxyRequest(req, res, target);
 });
+
 
 //Starting the server
 console.log('Starting the Router to server studentInstances');
